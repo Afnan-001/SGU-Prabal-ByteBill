@@ -153,7 +153,7 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
         {initialBudget && percentUsed >= 80 && (
           <Button
             variant="outline"
-            className="w-full flex items-center gap-2"
+            className="w-50 ml-auto bg-blue-800 text-white flex items-center gap-2"
             onClick={() => setShowInsights(true)}
           >
             <Sparkles className="h-4 w-4" />
