@@ -23,8 +23,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="minilogo.png" alt="Logo" width="80" height="80" align="center">
+  <a href="https://github.com/Chinmay1635/SGU-Prabal-ByteBill">
+    <img src="https://afnan-001.github.io/deployed_images/minilogo.png" alt="Logo" width="80" height="80" align="center">
   </a>
 
   <h1 align="center">ByteBill</h3>
