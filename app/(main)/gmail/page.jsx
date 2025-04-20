@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Download, LogOut, LogIn, FileSearch, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { saveAs } from 'file-saver';
+import { SparklesCore } from "@/components/ui/sparkles";
 
 const GmailBillsPage = () => {
   const [bills, setBills] = useState([]);
@@ -240,14 +241,14 @@ const GmailBillsPage = () => {
       let pageToken = null;
       let hasMore = true;
       let batchCount = 0;
-      const maxBatches = 10; // Safety limit to prevent infinite loops
+      const maxBatches = 10;
   
       while (hasMore && batchCount < maxBatches) {
         batchCount++;
         const res = await gapi.client.gmail.users.messages.list({
           userId: 'me',
           q: '(bill OR invoice has:attachment OR Your Amazon.in order) OR (from:google-pay-noreply@google.com) OR (from:noreply@zomato.com) OR (from:noreply@phonepe.com) OR (from:noreply@paytm.com)',
-          maxResults: 100, // Reduced from 500 to avoid timeouts
+          maxResults: 100,
           pageToken: pageToken,
         });
   
@@ -258,11 +259,9 @@ const GmailBillsPage = () => {
         pageToken = res.result.nextPageToken;
         hasMore = !!pageToken;
   
-        // Small delay to avoid rate limiting
         await new Promise(resolve => setTimeout(resolve, 500));
       }
   
-      // Process messages in batches to avoid memory issues
       const batchSize = 20;
       const allBills = [];
       
@@ -291,7 +290,6 @@ const GmailBillsPage = () => {
               const body = extractPlainText(msgDetail.result.payload);
               const details = extractBillDetails(body, formattedDate);
   
-              // Skip if no amount was found (likely not a real bill)
               if (details.amount === 'Not found') {
                 return null;
               }
@@ -311,14 +309,10 @@ const GmailBillsPage = () => {
           })
         );
   
-        // Filter out null entries and add to allBills
         allBills.push(...batchBills.filter(bill => bill !== null));
-        
-        // Small delay between batches
         await new Promise(resolve => setTimeout(resolve, 500));
       }
   
-      // Prepare CSV content
       const headers = ['Vendor', 'Subject', 'From', 'Date', 'Amount', 'Bill Number'];
       const rows = allBills.map(bill => [
         `"${(bill.vendor || '').replace(/"/g, '""')}"`,
@@ -354,126 +348,152 @@ const GmailBillsPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Gmail Bill Extraction</h1>
+    <div className="min-h-screen relative overflow-hidden bg-transparent">
+      {/* Sparkles Background */}
+      <div className="fixed inset-0 -z-50 bg-gradient-to-br from-black via-gray-900 to-sky-400">
+        <div className="absolute inset-0 bg-gradient-to-t from-sky-900/20 via-transparent to-transparent opacity-60"></div>
+        <SparklesCore
+          id="gmail-bills-sparkles"
+          background="transparent"
+          minSize={0.3}
+          maxSize={1}
+          particleDensity={15}
+          className="w-full h-full"
+          particleColor="#B4E1EF"
+        />
       </div>
 
-      {!signedIn ? (
-        <div className="flex justify-center">
-          <button
-            onClick={() => handleAuth('signIn')}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow flex items-center gap-2"
-          >
-            <LogIn size={18} /> Sign in with Google
-          </button>
+      <div className="relative z-10 container mx-auto px-4 py-8">
+        <div className="flex flex-col items-center mb-8">
+          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-cyan-500">
+            Gmail Bill Extraction
+          </h1>
         </div>
-      ) : (
-        <div className="space-y-6">
-          <div className="flex gap-4 mb-6 justify-center flex-wrap">
+
+        {!signedIn ? (
+          <div className="flex justify-center">
             <button
-              onClick={() => handleAuth('signOut')}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow flex items-center gap-2"
+              onClick={() => handleAuth('signIn')}
+              className="bg-sky-500 hover:bg-sky-600 text-black px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 transition-all"
             >
-              <LogOut size={18} /> Sign Out
-            </button>
-            <button
-              onClick={() => fetchBills()}
-              disabled={loading}
-              className={`bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow flex items-center gap-2 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-            >
-              <FileSearch size={18} /> {loading ? 'Processing...' : 'Fetch Bills'}
-            </button>
-            <button
-              onClick={downloadCSV}
-              disabled={exportLoading || !signedIn}
-              className={`bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg shadow flex items-center gap-2 ${
-                exportLoading || !signedIn ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              {exportLoading ? 'Preparing Download...' : (
-                <>
-                  <Download size={18} /> Download All as CSV
-                </>
-              )}
+              <LogIn size={18} /> Sign in with Google
             </button>
           </div>
+        ) : (
+          <div className="space-y-6">
+            <div className="flex gap-4 mb-6 justify-center flex-wrap">
+              <button
+                onClick={() => handleAuth('signOut')}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 transition-all"
+              >
+                <LogOut size={18} /> Sign Out
+              </button>
+              <button
+                onClick={() => fetchBills()}
+                disabled={loading}
+                className={`bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 transition-all ${
+                  loading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
+                <FileSearch size={18} /> {loading ? 'Processing...' : 'Fetch Bills'}
+              </button>
+              <button
+                onClick={downloadCSV}
+                disabled={exportLoading || !signedIn}
+                className={`bg-sky-500 hover:bg-sky-600 text-black px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 transition-all ${
+                  exportLoading || !signedIn ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
+                {exportLoading ? 'Preparing Download...' : (
+                  <>
+                    <Download size={18} /> Download All as CSV
+                  </>
+                )}
+              </button>
+            </div>
 
-          {bills.length > 0 && (
-            <>
-              <div className="flex justify-between items-center mb-2">
-                <div className="text-sm text-gray-600">
-                  Showing {((pagination.currentPage - 1) * pagination.resultsPerPage) + 1}-{' '}
-                  {Math.min(
-                    pagination.currentPage * pagination.resultsPerPage,
-                    pagination.totalResults
-                  )}{' '}
-                  of {pagination.totalResults} bills
+            <div className='mt-4 p-4 border-2 border-sky-500 rounded-lg'>
+            {bills.length > 0 && (
+              <>
+                <div className="flex justify-between items-center mb-2">
+                  <div className="text-sm text-sky-200">
+                    Showing {((pagination.currentPage - 1) * pagination.resultsPerPage) + 1}-{' '}
+                    {Math.min(
+                      pagination.currentPage * pagination.resultsPerPage,
+                      pagination.totalResults
+                    )}{' '}
+                    of {pagination.totalResults} bills
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handlePrevPage}
+                      disabled={pagination.currentPage === 1 || loading}
+                      className={`px-3 py-1 border border-sky-500/30 rounded flex items-center gap-1 text-sky-100 ${
+                        pagination.currentPage === 1 || loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-sky-500/20'
+                      }`}
+                    >
+                      <ChevronLeft size={16} /> Previous
+                    </button>
+                    <button
+                      onClick={handleNextPage}
+                      disabled={!pagination.pageToken || loading}
+                      className={`px-3 py-1 border border-sky-500/30 rounded flex items-center gap-1 text-sky-100 ${
+                        !pagination.pageToken || loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-sky-500/20'
+                      }`}
+                    >
+                      Next <ChevronRight size={16} />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={handlePrevPage}
-                    disabled={pagination.currentPage === 1 || loading}
-                    className={`px-3 py-1 border rounded flex items-center gap-1 ${pagination.currentPage === 1 || loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}`}
-                  >
-                    <ChevronLeft size={16} /> Previous
-                  </button>
-                  <button
-                    onClick={handleNextPage}
-                    disabled={!pagination.pageToken || loading}
-                    className={`px-3 py-1 border rounded flex items-center gap-1 ${!pagination.pageToken || loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100'}`}
-                  >
-                    Next <ChevronRight size={16} />
-                  </button>
-                </div>
-              </div>
 
-              <div className="overflow-x-auto">
-                <table className="min-w-full table-auto border-collapse border border-gray-200 shadow-md rounded-xl overflow-hidden">
-                  <thead>
-                    <tr className="bg-gray-100 text-gray-700 text-left">
-                      <th className="px-6 py-3 border">Vendor</th>
-                      <th className="px-6 py-3 border">Details</th>
-                      <th 
-                        className="px-6 py-3 border cursor-pointer hover:bg-gray-200"
-                        onClick={() => handleSort('rawDate')}
-                      >
-                        Date {getSortIcon('rawDate')}
-                      </th>
-                      <th 
-                        className="px-6 py-3 border cursor-pointer hover:bg-gray-200"
-                        onClick={() => handleSort('amountValue')}
-                      >
-                        Amount {getSortIcon('amountValue')}
-                      </th>
-                      <th className="px-6 py-3 border">Bill #</th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white">
-                    {bills.map((bill, index) => (
-                      'error' in bill || 'message' in bill ? (
-                        <tr key={index}>
-                          <td colSpan="5" className="px-4 py-4 text-center text-red-500">
-                            {bill.error || bill.message}
-                          </td>
-                        </tr>
-                      ) : (
-                        <tr key={bill.id} className="hover:bg-gray-50">
-                          <td className="border px-6 py-4 font-medium text-gray-900">{bill.vendor}</td>
-                          <td className="border px-6 py-4 text-gray-700">{bill.subject}</td>
-                          <td className="border px-6 py-4 text-gray-600">{bill.date}</td>
-                          <td className="border px-6 py-4 text-green-700 font-semibold">{bill.amount}</td>
-                          <td className="border px-6 py-4 text-gray-500">{bill.billNumber}</td>
-                        </tr>
-                      )
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          )}
-        </div>
-      )}
+                <div className="overflow-x-auto">
+                  <table className="min-w-full table-auto border-collapse border border-sky-500/30 shadow-lg rounded-xl overflow-hidden bg-gray-900/80 backdrop-blur-sm">
+                    <thead>
+                      <tr className="bg-sky-500/10 text-sky-100 text-left">
+                        <th className="px-6 py-3 border border-sky-500/30">Vendor</th>
+                        <th className="px-6 py-3 border border-sky-500/30">Details</th>
+                        <th 
+                          className="px-6 py-3 border border-sky-500/30 cursor-pointer hover:bg-sky-500/20"
+                          onClick={() => handleSort('rawDate')}
+                        >
+                          Date {getSortIcon('rawDate')}
+                        </th>
+                        <th 
+                          className="px-6 py-3 border border-sky-500/30 cursor-pointer hover:bg-sky-500/20"
+                          onClick={() => handleSort('amountValue')}
+                        >
+                          Amount {getSortIcon('amountValue')}
+                        </th>
+                        <th className="px-6 py-3 border border-sky-500/30">Bill #</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bills.map((bill, index) => (
+                        'error' in bill || 'message' in bill ? (
+                          <tr key={index}>
+                            <td colSpan="5" className="px-4 py-4 text-center text-red-400 border border-sky-500/30">
+                              {bill.error || bill.message}
+                            </td>
+                          </tr>
+                        ) : (
+                          <tr key={bill.id} className="hover:bg-sky-500/10">
+                            <td className="border border-sky-500/30 px-6 py-4 font-medium text-white">{bill.vendor}</td>
+                            <td className="border border-sky-500/30 px-6 py-4 text-sky-100">{bill.subject}</td>
+                            <td className="border border-sky-500/30 px-6 py-4 text-sky-200">{bill.date}</td>
+                            <td className="border border-sky-500/30 px-6 py-4 text-green-400 font-semibold">{bill.amount}</td>
+                            <td className="border border-sky-500/30 px-6 py-4 text-sky-200">{bill.billNumber}</td>
+                          </tr>
+                        )
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
