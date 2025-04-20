@@ -23,13 +23,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const COLORS = [
-  "#FF6B6B",
-  "#4ECDC4",
-  "#45B7D1",
-  "#96CEB4",
-  "#FFEEAD",
-  "#D4A5A5",
-  "#9FA8DA",
+  "#2563EB",  // blue-600 (vibrant primary blue)
+  "#3B82F6",  // blue-500 (bright blue)
+  "#60A5FA",  // blue-400 (light blue)
+  "#93C5FD",  // blue-300 (very light blue)
+  "#BFDBFE",  // blue-200 (pale blue)
+  "#1D4ED8",  // blue-700 (deep blue)
+  "#1E40AF",  // blue-800 (dark blue)
+  "#0284C7",  // cyan-600 (blue-cyan)
+  "#0EA5E9",  // sky-500 (bright cyan-blue)
+  "#38BDF8",  // sky-400 (light cyan)
+  "#7DD3FC",  // sky-300 (pale cyan)
+  "#BAE6FD",  // sky-200 (very pale cyan)
+  "#0369A1",  // cyan-700 (deep cyan-blue)
+  "#0C4A6E",  // cyan-800 (dark cyan-blue)
+  "#0891B2",  // teal-600 (blue-green)
+  "#06B6D4",  // cyan-500 (vibrant cyan)
 ];
 
 export function DashboardOverview({ accounts, transactions }) {
@@ -79,21 +88,25 @@ export function DashboardOverview({ accounts, transactions }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {/* Recent Transactions Card */}
-      <Card>
+      <Card className="bg-gray-900/80 backdrop-blur-lg  border-sky-200 border-s">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-          <CardTitle className="text-base font-normal">
+          <CardTitle className="text-base font-normal text-gray-300">
             Recent Transactions
           </CardTitle>
           <Select
             value={selectedAccountId}
             onValueChange={setSelectedAccountId}
           >
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-[140px] bg-gray-800/50 border-sky-200 border-s text-white">
               <SelectValue placeholder="Select account" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-sky-300 border-sky-200 border-s text-black">
               {accounts.map((account) => (
-                <SelectItem key={account.id} value={account.id}>
+                <SelectItem
+                  key={account.id}
+                  value={account.id}
+                  className="hover:bg-yellow-500/20"
+                >
                   {account.name}
                 </SelectItem>
               ))}
@@ -103,7 +116,7 @@ export function DashboardOverview({ accounts, transactions }) {
         <CardContent>
           <div className="space-y-4">
             {recentTransactions.length === 0 ? (
-              <p className="text-center text-muted-foreground py-4">
+              <p className="text-center text-gray-400 py-4">
                 No recent transactions
               </p>
             ) : (
@@ -113,10 +126,10 @@ export function DashboardOverview({ accounts, transactions }) {
                   className="flex items-center justify-between"
                 >
                   <div className="space-y-1">
-                    <p className="text-sm font-medium leading-none">
+                    <p className="text-sm font-medium leading-none text-gray-300">
                       {transaction.description || "Untitled Transaction"}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-gray-400">
                       {format(new Date(transaction.date), "PP")}
                     </p>
                   </div>
@@ -125,8 +138,8 @@ export function DashboardOverview({ accounts, transactions }) {
                       className={cn(
                         "flex items-center",
                         transaction.type === "EXPENSE"
-                          ? "text-red-500"
-                          : "text-green-500"
+                          ? "text-red-400"
+                          : "text-green-400"
                       )}
                     >
                       {transaction.type === "EXPENSE" ? (
@@ -145,15 +158,15 @@ export function DashboardOverview({ accounts, transactions }) {
       </Card>
 
       {/* Expense Breakdown Card */}
-      <Card>
+      <Card className="bg-gray-900/80 backdrop-blur-lg border border-sky-200 border-s">
         <CardHeader>
-          <CardTitle className="text-base font-normal">
+          <CardTitle className="text-base font-normal text-gray-300">
             Monthly Expense Breakdown
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0 pb-5">
           {pieChartData.length === 0 ? (
-            <p className="text-center text-muted-foreground py-4">
+            <p className="text-center text-gray-400 py-4">
               No expenses this month
             </p>
           ) : (
@@ -164,7 +177,7 @@ export function DashboardOverview({ accounts, transactions }) {
                     data={pieChartData}
                     cx="50%"
                     cy="50%"
-                    outerRadius={80}
+                    outerRadius={100}
                     fill="#8884d8"
                     dataKey="value"
                     label={({ name, value }) => `${name}: ₹${value.toFixed(2)}`}
@@ -173,18 +186,28 @@ export function DashboardOverview({ accounts, transactions }) {
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
+                        stroke="#000000" // Black border
+                        strokeWidth={2}
                       />
                     ))}
                   </Pie>
                   <Tooltip
                     formatter={(value) => `₹${value.toFixed(2)}`}
                     contentStyle={{
-                      backgroundColor: "hsl(var(--popover))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "var(--radius)",
+                      
+                        backgroundColor: "hsl(199, 89%, 80%)", // sky-300 in HSL
+                        border: "1px solid hsl(199, 89%, 40%)", // sky-600 border for contrast
+                        borderRadius: "0.5rem",
+                        color: "hsl(199, 89%, 20%)" // sky-800 text for readability
+                      
                     }}
                   />
-                  <Legend />
+                  <Legend
+                    wrapperStyle={{
+                      color: "hsl(45, 100%, 50%)",
+                      paddingTop: "20px",
+                    }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
