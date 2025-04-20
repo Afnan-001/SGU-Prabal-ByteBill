@@ -55,29 +55,29 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="pt-24 pb-20 px-4 bg-white"> {/* Increased top padding for overall push down */}
+    <section className="pt-24 pb-20 px-4 "> {/* Increased top padding for overall push down */}
       <div className="container mx-auto text-center">
-        <h1 className="text-5xl md:text-6xl lg:text-6xl pb-10 mt-6 gradient-title"> {/* Smaller font + added margin top */}
-          <span className="inline-block">Empower Your Wallet with</span>
+        <h1 className="text-5xl md:text-6xl lg:text-6xl pb-10 mt-6 font-extrabold text-yellow-500"> {/* Smaller font + added margin top */}
+          <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-cyan-500">Empower Your Wallet with</span>
           <br />
-          <span className="inline-block ml-3 text-purple-800 transition-all duration-500 ease-in-out min-w-[200px]">
+          <span className="inline-block ml-3 text-white transition-all duration-500 ease-in-out min-w-[200px]">
             {typedText}
           </span>
         </h1>
-        <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+        <p className="text-lg text-sky-200 mb-8 max-w-2xl mx-auto">
           An AI-powered financial management platform that helps you track,
           analyze, and optimize your spending with real-time insights.
         </p>
         <div className="flex justify-center space-x-4">
           <Link href="/dashboard">
-            <Button size="lg" className="px-8 bg-purple-700">
+            <Button size="lg" className="px-8 bg-sky-300 text-black hover:text-white">
               Get Started
             </Button>
           </Link>
         </div>
 
         {/* Fading image slider with fixed box */}
-        <div className="relative w-full max-w-6xl h-[400px] mx-auto mt-12 overflow-hidden rounded-3xl bg-white">
+        <div className="relative w-full max-w-6xl h-[400px] mx-auto mt-12 overflow-hidden rounded-3xl ">
           {images.map((img, index) => (
             <Image
               key={index}
