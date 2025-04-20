@@ -24,7 +24,7 @@ export const HeaderClient = () => {
   }, []);
 
   return (
-    <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
+    <header className="fixed top-0 w-full bg-transparent backdrop-blur-md z-50 ">
       <nav className="container mx-auto px-1 sm:px-1 py-4 flex items-center justify-between">
         <div className="flex items-center justify-between w-full md:w-auto">
           <Link href="/">
@@ -60,12 +60,12 @@ export const HeaderClient = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
           <SignedOut>
-            <a href="#features" className="text-gray-600 hover:text-blue-600">
+            <a href="#features" className="text-sky-400 hover:text-sky-700">
               Features
             </a>
             <a
               href="#testimonials"
-              className="text-gray-600 hover:text-blue-600"
+              className="text-sky-400 hover:text-sky-700"
             >
               Testimonials
             </a>
@@ -77,33 +77,33 @@ export const HeaderClient = () => {
           <SignedIn>
             <Link
               href="/Prediction"
-              className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+              className="text-black flex items-center gap-2"
             >
-              <Button variant="outline">
+              <Button className="hover:bg-sky-200 hover:text-black">
                 <FaChartLine size={18} />
                 <span className="hidden md:inline">Predict Expenses</span>
               </Button>
             </Link>
             <Link
               href="/gmail"
-              className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+              className="text-black flex items-center gap-2"
             >
-              <Button variant="outline">
+              <Button className="hover:bg-sky-200 hover:text-black">
               <FaEnvelope size={18} /> {/* Add the mail icon here */}
                 <span className="hidden md:inline">Gmail Transactions</span>
               </Button>
             </Link>
             <Link
               href="/dashboard"
-              className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+              className="text-black flex items-center gap-2"
             >
-              <Button variant="outline">
+              <Button className="hover:bg-sky-200 hover:text-black">
                 <LayoutDashboard size={18} />
                 <span className="hidden md:inline">Dashboard</span>
               </Button>
             </Link>
             <a href="/transaction/create">
-              <Button className="flex items-center gap-2">
+              <Button className="flex items-center gap-2 bg-white hover:bg-primary text-black">
                 <PenBox size={18} />
                 <span className="hidden md:inline">Add Transaction</span>
               </Button>
@@ -127,7 +127,7 @@ export const HeaderClient = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden absolute top-20 left-0 right-0 bg-white border-t shadow-lg py-4 px-6">
+          <div className="md:hidden absolute top-20 left-0 right-0 bg-black border-t shadow-lg py-4 px-6">
             <div className="flex flex-col space-y-4">
               <SignedOut>
                 <a
@@ -155,6 +155,15 @@ export const HeaderClient = () => {
                   <FaChartLine size={18} />
                   <span>Predict Expenses</span>
                 </Link>
+                <Link
+                  href="/gmail"
+                  className="flex items-center gap-2 text-gray-600 hover:text-blue-600 py-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <FaEnvelope size={18} />
+                  <span>Gmail Transactions</span>
+                </Link>
+                
                 <Link
                   href="/dashboard"
                   className="flex items-center gap-2 text-gray-600 hover:text-blue-600 py-2"
