@@ -164,9 +164,17 @@ Don't forget to give the project a star! Thanks again!
 
 
 ## Team
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Chinmay1635"><img src="https://avatars.githubusercontent.com/u/159155703?v=4" width="100px;" alt="Chinmay Kulkarni"/><br /><sub><b>Chinmay Kulkarni</b></sub></a><br/> </td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Afnan2op"><img src="https://avatars.githubusercontent.com/u/208136186?v=4" width="100px;" alt="Afnan Sayyad"/><br /><sub><b>Afnan Sayyad</b></sub></a><br/> </td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/dumbsumit"><img src="https://avatars.githubusercontent.com/u/167517728?v=4" width="100px;" alt="Sumit Phalke"/><br /><sub><b>Sumit Phalke</b></sub></a><br/> </td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/PIYUS1507"><img src="https://avatars.githubusercontent.com/u/164095652?v=4" width="100px;" alt="Piyush Rajurkar"/><br /><sub><b>Piyush Rajurkar</b></sub></a><br/> </td>
+    </tr>
+</tbody>
+</table>
 
-[![Chinmay Kulkarni](https://avatars.githubusercontent.com/u/159155703?v=4](https://github.com/Chinmay1635)  | [![Afnan Sayyad](https://avatars.githubusercontent.com/u/152024018?v=4)](https://github.com/Afnan-001) | 
----|---
-[Chinmay Kulkarni ](https://github.com/Chinmay1635) |[Afnan Sayyad](https://github.com/Afnan-001)
+## Made by Sixth Sense ❤️
 
 
