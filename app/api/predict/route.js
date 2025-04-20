@@ -135,7 +135,7 @@ async function predictPerCategoryPerUser(prismaUserId) {
 
   return predictions.map(p => ({
     ...p,
-    predicted_monthly_expense: p.predicted_monthly_expense/15,
+    predicted_monthly_expense: p.predicted_monthly_expense,
   }));
 }
 
