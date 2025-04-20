@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SparklesCore } from "@/components/ui/sparkles";
 
 const DATE_RANGES = {
   "7D": { label: "Last 7 Days", days: 7 },
@@ -30,7 +31,7 @@ const DATE_RANGES = {
 };
 
 export function AccountChart({ transactions }) {
-  const [dateRange, setDateRange] = useState("1M");
+  const [dateRange, setDateRange] = useState("ALL");
 
   const filteredData = useMemo(() => {
     const range = DATE_RANGES[dateRange];
@@ -76,95 +77,127 @@ export function AccountChart({ transactions }) {
   }, [filteredData]);
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
-        <CardTitle className="text-base font-normal">
-          Transaction Overview
-        </CardTitle>
-        <Select defaultValue={dateRange} onValueChange={setDateRange}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="Select range" />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.entries(DATE_RANGES).map(([key, { label }]) => (
-              <SelectItem key={key} value={key}>
-                {label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </CardHeader>
-      <CardContent>
-        <div className="flex justify-around mb-6 text-sm">
-          <div className="text-center">
-            <p className="text-muted-foreground">Total Income</p>
-            <p className="text-lg font-bold text-green-500">
-              ₹{totals.income.toFixed(2)}
-            </p>
+    <div className="relative">
+      {/* Sparkles Background */}
+      <div className="absolute inset-0 -z-10">
+        <SparklesCore
+          id="account-chart-sparkles"
+          background="transparent"
+          minSize={0.3}
+          maxSize={1}
+          particleDensity={10}
+          className="w-full h-full"
+          particleColor="#B4E1EF"
+        />
+      </div>
+
+      <Card className="bg-gray-900/80 backdrop-blur-lg border-s border-sky-300">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
+          <CardTitle className="text-base font-normal text-gray-300">
+            Transaction Overview
+          </CardTitle>
+          <Select defaultValue={dateRange} onValueChange={setDateRange}>
+            <SelectTrigger className="w-[140px] bg-gray-800/50 border-sky-300/30 text-white">
+              {" "}
+              <SelectValue placeholder="Select range" />
+            </SelectTrigger>
+            <SelectContent className="bg-sky-300 border-blue-700/30 text-black">
+              {Object.entries(DATE_RANGES).map(([key, { label }]) => (
+                <SelectItem
+                  key={key}
+                  value={key}
+                  className="hover:bg-yellow-500/20"
+                >
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </CardHeader>
+        <CardContent>
+          <div className="flex justify-around mb-6 text-sm">
+            <div className="text-center">
+              <p className="text-gray-400">Total Income</p>
+              <p className="text-lg font-bold text-green-400">
+                ₹{totals.income.toFixed(2)}
+              </p>
+            </div>
+            <div className="text-center">
+              <p className="text-gray-400">Total Expenses</p>
+              <p className="text-lg font-bold text-red-400">
+                ₹{totals.expense.toFixed(2)}
+              </p>
+            </div>
+            <div className="text-center">
+              <p className="text-gray-400">Net</p>
+              <p
+                className={`text-lg font-bold ${
+                  totals.income - totals.expense >= 0
+                    ? "text-green-400"
+                    : "text-red-400"
+                }`}
+              >
+                ₹{(totals.income - totals.expense).toFixed(2)}
+              </p>
+            </div>
           </div>
-          <div className="text-center">
-            <p className="text-muted-foreground">Total Expenses</p>
-            <p className="text-lg font-bold text-red-500">
-              ₹{totals.expense.toFixed(2)}
-            </p>
+          <div className="h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={filteredData}
+                margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
+              >
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  vertical={false}
+                  stroke="#4B5563" // gray-600
+                />
+                <XAxis
+                  dataKey="date"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                  stroke="#9CA3AF" // gray-400
+                />
+                <YAxis
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={(value) => `₹${value}`}
+                  stroke="#9CA3AF" // gray-400
+                />
+                <Tooltip
+                  formatter={(value) => [`₹${value}`, undefined]}
+                  contentStyle={{
+                    backgroundColor: "hsl(199, 89%, 20%)", // sky-800 (dark background for contrast)
+                    border: "1px solid hsl(199, 89%, 80%)", // sky-300 border
+                    borderRadius: "0.5rem",
+                    color: "hsl(199, 89%, 80%)", // sky-300 text
+                  }}
+                />
+                <Legend
+                  wrapperStyle={{
+                    color: "hsl(199, 89%, 80%)", // sky-300 text
+                    paddingTop: "10px",
+                  }}
+                />
+                <Bar
+                  dataKey="income"
+                  name="Income"
+                  fill="#4ADE80" // green-400
+                  radius={[4, 4, 0, 0]}
+                />
+                <Bar
+                  dataKey="expense"
+                  name="Expense"
+                  fill="#F87171" // red-400
+                  radius={[4, 4, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
-          <div className="text-center">
-            <p className="text-muted-foreground">Net</p>
-            <p
-              className={`text-lg font-bold ${
-                totals.income - totals.expense >= 0
-                  ? "text-green-500"
-                  : "text-red-500"
-              }`}
-            >
-              ₹{(totals.income - totals.expense).toFixed(2)}
-            </p>
-          </div>
-        </div>
-        <div className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={filteredData}
-              margin={{ top: 10, right: 10, left: 10, bottom: 0 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis
-                dataKey="date"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
-              />
-              <YAxis
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(value) => `₹${value}`}
-              />
-              <Tooltip
-                formatter={(value) => [`₹${value}`, undefined]}
-                contentStyle={{
-                  backgroundColor: "hsl(var(--popover))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "var(--radius)",
-                }}
-              />
-              <Legend />
-              <Bar
-                dataKey="income"
-                name="Income"
-                fill="#22c55e"
-                radius={[4, 4, 0, 0]}
-              />
-              <Bar
-                dataKey="expense"
-                name="Expense"
-                fill="#ef4444"
-                radius={[4, 4, 0, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
