@@ -26,7 +26,7 @@ const FinanceTicker = () => {
   const pulseIndexes3 = getRandomIndexes(financeWords.length, 2)
 
   return (
-    <section className="bg-white py-12 px-4 shadow-inner rounded-lg">
+    <section className=" py-12 px-4 shadow-inner rounded-lg">
       {/* Row 1: Left to Right */}
       <div className="overflow-hidden whitespace-nowrap py-4">
         <div className="flex animate-marquee-left gap-10">
@@ -49,7 +49,7 @@ const FinanceTicker = () => {
           {[...financeWords].reverse().concat([...financeWords].reverse()).map((word, index) => (
             <span
               key={`row2-${index}`}
-              className={`text-blue-900 text-2xl font-serif italic transition-transform duration-500 ${
+              className={`text-white text-2xl font-serif italic transition-transform duration-500 ${
                 pulseIndexes2.includes(index % financeWords.length) ? 'animate-pulse-scale' : ''
               }`}
             >
@@ -65,7 +65,7 @@ const FinanceTicker = () => {
           {financeWords.slice(10).concat(financeWords.slice(0, 10)).concat(financeWords.slice(10)).map((word, index) => (
             <span
               key={`row3-${index}`}
-              className={`text-gray-700 text-xl font-mono uppercase tracking-widest transition-transform duration-500 ${
+              className={`text-primary text-xl font-mono uppercase tracking-widest transition-transform duration-500 ${
                 pulseIndexes3.includes(index % financeWords.length) ? 'animate-pulse-scale' : ''
               }`}
             >
