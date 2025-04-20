@@ -116,20 +116,20 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
     <>
       {/* AI Insights Dialog */}
       <Dialog open={showInsights} onOpenChange={setShowInsights}>
-        <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto bg-gray-900/80 backdrop-blur-lg border border-sky-200 border-s">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-yellow-500" />
+            <DialogTitle className="flex items-center gap-2 text-yellow-400">
+              <Sparkles className="h-5 w-5 text-yellow-400" />
               AI-Powered Savings Insights
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <p className="text-sm">
+            <p className="text-sm text-gray-300">
               Based on your current spending ({percentUsed.toFixed(1)}% of budget used), 
               here are personalized suggestions to help you save:
             </p>
             
-            <ul className="space-y-3 list-disc pl-5">
+            <ul className="space-y-3 list-disc pl-5 text-gray-300">
               {moneySavingTips.map((tip, index) => (
                 <li key={index} className="text-sm">{tip}</li>
               ))}
@@ -139,6 +139,7 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
               <Button 
                 variant="outline" 
                 onClick={() => setShowInsights(false)}
+                className="bg-yellow-500/10 border-sky-200 border-s text-yellow-400 hover:bg-yellow-500/20"
               >
                 Close
               </Button>
@@ -152,8 +153,8 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
         {/* AI Insight Button - Only shows when budget exceeds 80% */}
         {initialBudget && percentUsed >= 80 && (
           <Button
-            variant="outline"
-            className="w-50 ml-auto bg-blue-800 text-white flex items-center gap-2"
+          
+            className="ml-auto  flex items-center gap-2 bg-yellow-500 text-black border-sky-200 border-s  hover:bg-sky-200 hover:text-black"
             onClick={() => setShowInsights(true)}
           >
             <Sparkles className="h-4 w-4" />
@@ -161,10 +162,10 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
           </Button>
         )}
 
-        <Card>
+        <Card className="bg-transparent backdrop-blur-lg  border-sky-200 border-s">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <div className="flex-1">
-              <CardTitle className="text-sm font-medium">
+              <CardTitle className="text-sm font-medium text-gray-300">
                 Monthly Budget (Default Account)
               </CardTitle>
               <div className="flex items-center gap-2 mt-1">
@@ -174,7 +175,7 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
                       type="number"
                       value={newBudget}
                       onChange={(e) => setNewBudget(e.target.value)}
-                      className="w-32"
+                      className="w-32 bg-gray-800/50 border-sky-200 border-s text-white"
                       placeholder="Enter amount"
                       autoFocus
                       disabled={isLoading}
@@ -184,21 +185,23 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
                       size="icon"
                       onClick={handleUpdateBudget}
                       disabled={isLoading}
+                      className="hover:bg-green-500/20"
                     >
-                      <Check className="h-4 w-4 text-green-500" />
+                      <Check className="h-4 w-4 text-green-400" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={handleCancel}
                       disabled={isLoading}
+                      className="hover:bg-red-500/20"
                     >
-                      <X className="h-4 w-4 text-red-500" />
+                      <X className="h-4 w-4 text-red-400" />
                     </Button>
                   </div>
                 ) : (
                   <>
-                    <CardDescription>
+                    <CardDescription className="text-gray-400">
                       {initialBudget
                         ? `₹${currentExpenses.toFixed(
                             2
@@ -209,9 +212,9 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
                       variant="ghost"
                       size="icon"
                       onClick={() => setIsEditing(true)}
-                      className="h-6 w-6"
+                      className="h-6 w-6 hover:bg-yellow-500/20"
                     >
-                      <Pencil className="h-3 w-3" />
+                      <Pencil className="h-3 w-3 text-sky-400" />
                     </Button>
                   </>
                 )}
@@ -231,7 +234,7 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
                         : "bg-green-500"
                   }`}
                 />
-                <p className="text-xs text-muted-foreground text-right">
+                <p className="text-xs text-gray-400 text-right">
                   {percentUsed.toFixed(1)}% used
                 </p>
               </div>
