@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -14,76 +13,76 @@ html {
 @layer base {
   :root {
     --background: 0 0% 100%; /* White */
-    --foreground: 222 90% 20%; /* #073792 */
+    --foreground: 0 0% 0%; /* Black */
 
-    --card: 194 58% 86%; /* #B5E1ED */
-    --card-foreground: 222 90% 20%;
+    --card: 210 100% 96%; /* Light blue */
+    --card-foreground: 0 0% 0%;
 
-    --popover: 194 58% 86%;
-    --popover-foreground: 222 90% 20%;
+    --popover: 210 100% 96%;
+    --popover-foreground: 0 0% 0%;
 
-    --primary: 222 90% 30%; /* #073792 */
+    --primary: 212 100% 39%; /* blue-600 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 194 60% 80%;
-    --secondary-foreground: 222 90% 20%;
+    --secondary: 0 0% 20%; /* Dark gray */
+    --secondary-foreground: 210 100% 96%;
 
-    --muted: 194 40% 80%;
-    --muted-foreground: 222 90% 25%;
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 30%;
 
-    --accent: 194 70% 85%;
-    --accent-foreground: 222 90% 20%;
+    --accent: 210 100% 90%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 194 40% 70%;
-    --input: 194 40% 70%;
-    --ring: 222 90% 30%;
+    --border: 0 0% 80%;
+    --input: 0 0% 80%;
+    --ring: 212 100% 39%;
 
-    --chart-1: 194 58% 50%;
-    --chart-2: 222 90% 30%;
-    --chart-3: 210 50% 40%;
-    --chart-4: 194 100% 60%;
-    --chart-5: 200 80% 50%;
+    --chart-1: 212 100% 39%;
+    --chart-2: 205 100% 39%;
+    --chart-3: 198 100% 39%;
+    --chart-4: 191 100% 39%;
+    --chart-5: 184 100% 39%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222 90% 10%;
-    --foreground: 220 100% 99%;
+    --background: 0 0% 5%; /* Near black */
+    --foreground: 210 100% 96%;
 
-    --card: 222 90% 12%;
-    --card-foreground: 220 100% 99%;
+    --card: 0 0% 10%;
+    --card-foreground: 210 100% 96%;
 
-    --popover: 222 90% 12%;
-    --popover-foreground: 220 100% 99%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 210 100% 96%;
 
-    --primary: 194 58% 86%;
-    --primary-foreground: 222 90% 20%;
+    --primary: 212 100% 39%; /* blue-600 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 222 90% 20%;
-    --secondary-foreground: 220 100% 99%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 210 100% 96%;
 
-    --muted: 222 60% 20%;
-    --muted-foreground: 220 100% 90%;
+    --muted: 0 0% 25%;
+    --muted-foreground: 210 100% 80%;
 
-    --accent: 222 70% 25%;
-    --accent-foreground: 220 100% 99%;
+    --accent: 0 0% 30%;
+    --accent-foreground: 210 100% 96%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 222 40% 25%;
-    --input: 222 40% 25%;
-    --ring: 220 100% 95%;
+    --border: 0 0% 30%;
+    --input: 0 0% 30%;
+    --ring: 212 100% 39%;
 
-    --chart-1: 194 58% 60%;
-    --chart-2: 222 90% 50%;
-    --chart-3: 210 50% 55%;
-    --chart-4: 194 100% 65%;
-    --chart-5: 200 80% 60%;
+    --chart-1: 212 100% 39%;
+    --chart-2: 205 100% 39%;
+    --chart-3: 198 100% 39%;
+    --chart-4: 191 100% 39%;
+    --chart-5: 184 100% 39%;
   }
 }
 
@@ -110,8 +109,28 @@ html {
 }
 
 @layer utilities {
+  .animate-blob {
+    animation: blob 8s infinite;
+  }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
   .gradient {
-    @apply bg-gradient-to-br from-[#073792] to-[#B5E1ED];
+    @apply bg-gradient-to-br from-blue-800 to-blue-600;
   }
 
   .gradient-title {
@@ -177,8 +196,6 @@ html {
   animation: marquee-left-fast 12s linear infinite;
 }
 
-
-
 @layer utilities {
   @keyframes slideFadeIn {
     0% {
@@ -207,4 +224,13 @@ html {
 
 .animate-slideDownSlowly {
   animation: slideDownSlowly 2.5s ease-in-out forwards;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1 }
+  50% { opacity: 0 }
+}
+
+.animate-blink {
+  animation: blink 1s step-start infinite;
 }
