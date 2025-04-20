@@ -31,7 +31,7 @@ const LandingPage = () => {
   const words = [
     { text: "Smart Expense Tracking" },
     { text: "AI Powered Insights" },
-    { text: "Smart Receipt Scanner", className: "text-yellow-400" },
+    { text: "Smart Receipt Scanner", className: "text-blue-200" },
     { text: "Smart Buget planning" },
   ];
 
@@ -41,7 +41,7 @@ const LandingPage = () => {
     <div className="min-h-screen text-gray-200 relative overflow-hidden font-sans">
       {/* Professional Finance Background */}
       <div className="fixed inset-0 -z-50 bg-gradient-to-br from-black via-gray-900 to-sky-400/90">
-        <div className="absolute inset-0 bg-gradient-to-t from-yellow-900/20 via-transparent to-transparent opacity-60"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-sky-900/20 via-transparent to-transparent opacity-60"></div>
         <SparklesCore
           id="global-sparkles"
           background="transparent"
@@ -126,11 +126,11 @@ const LandingPage = () => {
                   viewport={{ once: true }}
                   whileHover={{ y: -10 }}
                 >
-                  <Card className="p-6 bg-gray-800/50 backdrop-blur-lg rounded-xl border border-sky-300 hover:border-sky-300/40 transition-all hover:shadow-lg hover:shadow-yellow-400/10">
+                  <Card className="p-6 bg-gray-800/50 backdrop-blur-lg rounded-xl border border-sky-300 hover:border-sky-300/40 transition-all hover:shadow-lg hover:shadow-sky-400/10">
                     <CardContent className="space-y-4 pt-4">
                       <motion.div 
                         whileHover={{ scale: 1.1 }}
-                        className="w-12 h-12 bg-yellow-400/10 rounded-lg flex items-center justify-center mb-4 text-sky-300"
+                        className="w-12 h-12 bg-sky-400/10 rounded-lg flex items-center justify-center mb-4 text-sky-300"
                       >
                         {feature.icon}
                       </motion.div>
@@ -181,7 +181,7 @@ const LandingPage = () => {
                 >
                   <motion.div 
                     whileHover={{ scale: 1.1 }}
-                    className="w-16 h-16 bg-gradient-to-br from-cyan-300 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-yellow-400/20"
+                    className="w-16 h-16 bg-gradient-to-br from-cyan-300 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-sky-400/20"
                   >
                     <motion.div 
                       animate={{ scale: [1, 1.1, 1] }}
@@ -242,7 +242,7 @@ const LandingPage = () => {
                           height={40}
                           className="rounded-full"
                         />
-                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full border-2 border-gray-800"></div>
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-sky-400 rounded-full border-2 border-gray-800"></div>
                       </div>
                       <div className="ml-4">
                         <div className="font-semibold text-white">{testimonial.name}</div>
@@ -287,7 +287,7 @@ const LandingPage = () => {
               </p>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link href="/dashboard">
-                  <Button className="bg-gradient-to-r from-blue-500 to-sky-300 text-gray-900 hover:sky-300  rounded-full px-8 py-6 text-lg font-semibold shadow-lg shadow-yellow-500/20">
+                  <Button className="bg-gradient-to-r from-blue-500 to-sky-300 text-gray-900 hover:sky-300  rounded-full px-8 py-6 text-lg font-semibold shadow-lg shadow-sky-500/20">
                     Start Free Trial
                   </Button>
                 </Link>
