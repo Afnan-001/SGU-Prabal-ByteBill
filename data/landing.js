@@ -6,7 +6,7 @@ import {
   Globe,
   Zap,
 } from "lucide-react";
-
+import { SiGmail } from "react-icons/si";
 // Stats Data
 export const statsData = [
   {
@@ -47,14 +47,14 @@ export const featuresData = [
     description: "Create and manage budgets with intelligent recommendations",
   },
   {
-    icon: <CreditCard className="h-8 w-8 text-blue-600" />,
+    icon: <SiGmail className="h-8 w-8 text-blue-600" />,
     title: "Fetches Transactions From Gmail",
     description: "Automatically fetches transactions from your Gmail account",
   },
   {
     icon: <Globe className="h-8 w-8 text-blue-600" />,
     title: "Expense Prediction",
-    description: "Predicts future expenses based on",
+    description: "Predicts future expenses based on historical transactions",
   },
   {
     icon: <Zap className="h-8 w-8 text-blue-600" />,
@@ -106,6 +106,6 @@ export const testimonialsData = [
     role: "Financial Advisor",
     image: "https://randomuser.me/api/portraits/women/74.jpg",
     quote:
-      "I recommend ByteBill to all my clients. The Gmail bill fetch support and detailed analytics makes it perfect for people with tight schedules.",
+      "I recommend ByteBill to all my clients. The multi-currency support and detailed analytics make it perfect for international investors.",
   },
 ];
